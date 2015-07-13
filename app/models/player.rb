@@ -2,7 +2,7 @@ class Player < ActiveRecord::Base
   belongs_to :championship
   before_create :ensure_authentication_token
 
-  validates_presence_of :name, :identity, :defence_length
+  validates_presence_of :name, :identity, :defence_length, :host, :port, :path
   validates_numericality_of :defence_length
 
   validate :number_of_players

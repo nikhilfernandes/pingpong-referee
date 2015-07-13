@@ -19,7 +19,7 @@ FactoryGirl.define do
   end
 
   factory :game do    
-    
+    championship
   end
 
   factory :player do    
@@ -27,6 +27,9 @@ FactoryGirl.define do
     name "name"
     identity { generate(:identity)}
     defence_length 7
+    host "host"
+    port "port"
+    path "path"
   end
 
     

@@ -27,10 +27,10 @@ describe Championship do
       championship.games.size.should eq(4)
       championship.games[0].player1_identity.should eq(first_player.identity)
       championship.games[0].player2_identity.should eq(second_player.identity)
-      championship.games[0].order_of_play.should eq(1)
+      championship.games[0].order_of_player1.should eq(1)
       championship.games[3].player1_identity.should eq(second_but_last_player.identity)
       championship.games[3].player2_identity.should eq(last_player.identity)
-      championship.games[3].order_of_play.should eq(4)      
+      championship.games[3].order_of_player2.should eq(2)      
     end
  
 end

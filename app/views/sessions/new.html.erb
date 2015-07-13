@@ -1,0 +1,35 @@
+<script type="text/javascript">
+  $(function() {
+    $("#login-button").on("click", function(){
+      $.ajax({
+      url: "/signin",
+      type: "POST",
+      data: {referee: {email: $("#inputEmail").val(), password: $("#inputPassword").val()}},
+      success: function(data){
+        console.log(data)
+      },
+      error: function(data){
+        res = $.parseJSON(data["responseText"]);
+        $(".error").html(res.error);        
+      },
+      dataType: "json"
+    });   
+    return false;  
+    });
+    
+  });
+</script>
+
+<div class="container">
+  <form class="form-signin" id="login-form">
+    <h2 class="form-signin-heading" style="margin-bottom:10px;">Please sign in</h2>
+    <div class="error"></div>
+    <label for="inputEmail" class="sr-only">Email address</label>
+    <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="" style="margin-bottom:10px;">
+    <label for="inputPassword" class="sr-only">Password</label>
+    <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="" style="margin-bottom:10px;">
+    
+    <button class="btn btn-lg btn-primary btn-block" type="submit" id="login-button">Sign in</button>
+  </form>
+
+</div>

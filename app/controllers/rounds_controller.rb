@@ -1,6 +1,6 @@
 class RoundsController < ApplicationController
-
-  before_filter :validate_player
+  skip_before_filter :authenticate_referee!, :only => [:update]
+  before_filter :validate_player!
 
   def update
     championship = Championship.find(params[:championship_id])
@@ -9,5 +9,13 @@ class RoundsController < ApplicationController
     round.update_attributes(params[:round])
   end
 
-  
+  def validate_player!    
+    championship = Championship.find(params[:championship_id])   
+    auth_token = request.headers["HTTP_X_AUTHENTICATION_TOKEN"]
+    player = auth_token && championship.players.where(auth_token: auth_token).first 
+    unless player
+      render json: {errors: {message: "You are not authorized to perform this operation.", auth_token: auth_token }}, status: :unauthorized
+      return
+    end                        
+  end
 end

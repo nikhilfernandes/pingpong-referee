@@ -4,7 +4,7 @@ class PlayersController < ApplicationController
 
   def create 
     championship = Championship.find(params[:championship_id])   
-    player = championship.players.create(params.require(:player).permit(:identity, :name, :defence_length))    
+    player = championship.players.create(params.require(:player).permit(:identity, :name, :defence_length, :host, :port, :path))    
     respond_with(player, location: "")
   end
 

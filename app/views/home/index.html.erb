@@ -1,0 +1,50 @@
+<script type="text/javascript">
+  $(function() {
+    $("#start-championship-button").on("click", function(){
+      if($("#inputTitle").val() == ""){
+        $("#inputTitle").addClass("error");
+        return false
+      }else{
+        $.ajax({
+        url: "/championships",
+        type: "POST",
+        data: {championship: {title: $("#inputTitle").val()}},
+        success: function(data){
+          window.location.href = "/championships/"+data.id;
+        },
+        error: function(data){
+          res = $.parseJSON(data["responseText"]);
+          $(".error").html(res.error);        
+        },
+        dataType: "json"
+      });   
+        return false;  
+      }
+    
+    });
+    
+  });
+</script>
+
+
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Ping Pong Referee</a>
+    </div>
+    
+  </div>
+</nav>
+<div style="margin:auto;margin-top:100px;float:none;text-align:center" class="col-sm-3">
+  <div class="error"></div>
+  <input type="text" id="inputTitle" class="form-control" placeholder="Title" required="" style="margin-bottom:10px;">
+  <a class="btn btn-lg btn-success" href="#" role="button" id="start-championship-button" >Start 
+  Championship</a>
+</div>

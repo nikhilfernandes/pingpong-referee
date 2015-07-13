@@ -8,9 +8,12 @@ describe PlayersController do
   describe "create" do    
     it "should create a player for a championship" do
       championship = create(:championship)      
-      post :create, championship_id: championship.id ,player: {name: "joe", identity: "1212121", defence_length: 8}, :format => "json"
+      post :create, championship_id: championship.id ,player: {name: "joe", identity: "1212121", defence_length: 8, host: "host", port: "port", path: "path"}, :format => "json"
+      
       response.status.should eq(201)                  
       response_body = JSON.parse(response.body)
+      puts response_body
+
       response_body["auth_token"].should_not be_nil
       response_body["auth_token"].should eq(championship.players.first.auth_token)
       response_body["identity"].should eq("1212121")
