@@ -1,5 +1,7 @@
 class Championship < ActiveRecord::Base
   has_many :games
-  validates_presence_of :title
+  belongs_to :referee
   
+  validates_presence_of :title
+
 end

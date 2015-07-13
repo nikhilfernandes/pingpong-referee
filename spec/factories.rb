@@ -13,5 +13,9 @@ FactoryGirl.define do
     
   end
 
+  factory :game do    
+    
+  end
+
     
 end
