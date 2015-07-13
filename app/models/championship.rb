@@ -6,6 +6,16 @@ class Championship < ActiveRecord::Base
   belongs_to :referee
   has_many :players
   validates_presence_of :title
+  before_create :set_status
+
+  module Status
+    OPEN = "open"
+    CLOSED = "closed"
+  end
+
+  def set_status
+    self.status = Status::OPEN
+  end
 
   def create_games
     self.players.each_slice(2) do |opponents| 
@@ -17,6 +27,9 @@ class Championship < ActiveRecord::Base
       HttpRequest.post(opponents[1], opponents[1].port, opponents[1].path, {game_id: game.id, order_of_play: 2, status: Game::STATUS::STARTED}, opponents[1].auth_token)
 
     end
+
+    self.status = Status::CLOSED
+    self.save
     
   end
 

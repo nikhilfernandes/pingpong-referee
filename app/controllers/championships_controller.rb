@@ -1,8 +1,16 @@
 class ChampionshipsController < ApplicationController
   respond_to :json, :html
+  skip_before_filter :authenticate_referee!, :only => [:index]
+
 
   def index
-    respond_with(current_referee.championships, location: "")
+    if current_referee.nil?
+      respond_with(Championship.all, location: "")
+      return
+    else
+      respond_with(current_referee.championships, location: "")
+      return
+    end
   end
 
   def create
@@ -19,7 +27,5 @@ class ChampionshipsController < ApplicationController
     end 
     render json: championship.as_json(include: [:players, :games])
   end
-
-  
 
 end
