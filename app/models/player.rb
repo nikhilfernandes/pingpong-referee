@@ -6,9 +6,14 @@ class Player < ActiveRecord::Base
   validates_numericality_of :defence_length
 
   validate :number_of_players
+  validate :duplicate_entry
 
   def number_of_players    
     errors.add(:championship, "The championship has exceeded the number of players") if championship.players.size == 8
+  end
+
+  def duplicate_entry    
+      errors.add(:identity, "The player has already joined the game") if championship.players.pluck(:identity).include?(self.identity)    
   end
 
   def ensure_authentication_token    

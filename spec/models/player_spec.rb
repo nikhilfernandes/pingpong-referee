@@ -39,7 +39,18 @@ describe Player do
       player =   build(:player)                
       player.save
       player.auth_token.should_not be_nil      
-    end            
+    end        
+
+    it "should validate that the same player cannot join the game twice" do
+      championship =   create(:championship, title: "test")
+      create(:player, championship: championship, identity: "1211111")
+      create(:player, championship: championship, identity: "23232232")
+      duplicate_player = build(:player, championship: championship, identity: "1211111")
+      duplicate_player.save
+      
+      duplicate_player.errors_on(:identity).should include("The player has already joined the game")
+      
+    end    
 
     xit "should validate the number of players to not be more than 8" do
       championship =   create(:championship, title: "test")

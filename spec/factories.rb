@@ -4,6 +4,11 @@ FactoryGirl.define do
     "user#{n}@pingpong.com"
   end 
 
+  sequence :identity do |n|
+    "identity#{n}"
+  end 
+
+
   factory :referee do    
     email { generate(:email) }
     password 'password'    
@@ -20,7 +25,7 @@ FactoryGirl.define do
   factory :player do    
     championship 
     name "name"
-    identity "identity"
+    identity { generate(:identity)}
     defence_length 7
   end
 
