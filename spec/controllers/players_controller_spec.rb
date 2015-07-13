@@ -1,32 +1,43 @@
 require "spec_helper"
 
-describe ChampionshipsController do
+describe PlayersController do
   before(:each) do
     @request.env["devise.mapping"] = Devise.mappings[:referee]      
   end
 
   describe "create" do    
-    it "should create a championship for a referee" do
-      referee = create(:referee)
-      sign_in referee
-      post :create, championship: {title: "test"}, :format => "json"
+    it "should create a player for a championship" do
+      championship = create(:championship)      
+      post :create, championship_id: championship.id ,player: {name: "joe", identity: "1212121", defence_length: 8}, :format => "json"
       response.status.should eq(201)                  
       response_body = JSON.parse(response.body)
-      response_body["title"].should eq("test")
+      response_body["auth_token"].should_not be_nil
+      response_body["auth_token"].should eq(championship.players.first.auth_token)
+      response_body["identity"].should eq("1212121")
     end
 
-    it "should not create a championship if title is not present" do
-      referee = create(:referee)
-      sign_in referee
-      post :create, championship: {title: ""}, :format => "json"
+    it "should not create a player if 8 players are already present" do
+      championship = create(:championship)     
+      create(:player, championship: championship)
+      create(:player, championship: championship)
+      create(:player, championship: championship)
+      create(:player, championship: championship)
+      create(:player, championship: championship)
+      create(:player, championship: championship)
+      create(:player, championship: championship)
+      create(:player, championship: championship)       
+
+      post :create, championship_id: championship.id ,player: {name: "joe", identity: "1212121", defence_length: 8}, :format => "json"      
+      championship.players.count.should eq(8)
       response.status.should eq(422)                  
       response_body = JSON.parse(response.body)
-      response_body["errors"]["title"].should include("can't be blank")
+      response_body["errors"]["championship"].should include("The championship has exceeded the number of players")
+      
     end
   end
 
   describe "index" do
-    it "should return the list of championships for a referee" do
+    xit "should return the list of championships for a referee" do
       referee = create(:referee)
       sign_in referee
       championship = create(:championship, referee_id: referee.id)

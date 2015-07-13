@@ -41,6 +41,22 @@ describe Player do
       player.auth_token.should_not be_nil      
     end            
 
+    xit "should validate the number of players to not be more than 8" do
+      championship =   create(:championship, title: "test")
+      create(:player, championship: championship)
+      create(:player, championship: championship)
+      create(:player, championship: championship)
+      create(:player, championship: championship)
+      create(:player, championship: championship)
+      create(:player, championship: championship)
+      create(:player, championship: championship)
+      create(:player, championship: championship)      
+      extra_player = create(:player, championship: championship)
+
+      extra_player.errors_on(:championship).should include("The championship has exceeded the number of players")
+      
+    end
+
   end
  
 end
