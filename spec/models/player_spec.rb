@@ -52,7 +52,7 @@ describe Player do
       
     end    
 
-    xit "should validate the number of players to not be more than 8" do
+    it "should validate the number of players to not be more than 8" do
       championship =   create(:championship, title: "test")
       create(:player, championship: championship)
       create(:player, championship: championship)
@@ -62,8 +62,10 @@ describe Player do
       create(:player, championship: championship)
       create(:player, championship: championship)
       create(:player, championship: championship)      
-      extra_player = create(:player, championship: championship)
-
+      extra_player = build(:player, championship: championship)
+      extra_player.save
+      championship.reload
+      championship.players.size.should eq(8)
       extra_player.errors_on(:championship).should include("The championship has exceeded the number of players")
       
     end

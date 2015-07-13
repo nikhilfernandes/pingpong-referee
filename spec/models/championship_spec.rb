@@ -13,5 +13,24 @@ describe Championship do
 
     
   end
+
+  it "should create games when 8 players have joined" do
+      championship =   create(:championship, title: "test")
+      first_player = create(:player, championship: championship)
+      second_player = create(:player, championship: championship)
+      create(:player, championship: championship)
+      create(:player, championship: championship)
+      create(:player, championship: championship)
+      create(:player, championship: championship)
+      second_but_last_player = create(:player, championship: championship)
+      last_player = create(:player, championship: championship)      
+      championship.games.size.should eq(4)
+      championship.games[0].player1_identity.should eq(first_player.identity)
+      championship.games[0].player2_identity.should eq(second_player.identity)
+      championship.games[0].order_of_play.should eq(1)
+      championship.games[3].player1_identity.should eq(second_but_last_player.identity)
+      championship.games[3].player2_identity.should eq(last_player.identity)
+      championship.games[3].order_of_play.should eq(4)      
+    end
  
 end

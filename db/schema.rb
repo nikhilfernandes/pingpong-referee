@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150713180719) do
+ActiveRecord::Schema.define(version: 20150713185455) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(version: 20150713180719) do
     t.string  "auth_token"
     t.string  "name"
     t.integer "defence_length"
+    t.integer "role"
   end
 
   create_table "referees", force: true do |t|
@@ -51,5 +52,13 @@ ActiveRecord::Schema.define(version: 20150713180719) do
 
   add_index "referees", ["email"], name: "index_referees_on_email", unique: true, using: :btree
   add_index "referees", ["reset_password_token"], name: "index_referees_on_reset_password_token", unique: true, using: :btree
+
+  create_table "rounds", force: true do |t|
+    t.integer "game_id"
+    t.integer "number"
+    t.string  "turn"
+    t.integer "offensive_number"
+    t.json    "defensive_array"
+  end
 
 end
