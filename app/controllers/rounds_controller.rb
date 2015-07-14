@@ -8,8 +8,11 @@ class RoundsController < ApplicationController
     round = game.rounds.find(params[:id])    
     round.update_attributes(params[:round])
     if round.valid?
-      
+      render json: round, status: :ok
+      return
     else
+      render json: { :errors => round.errors.full_messages }, status: :unprocessable_entity      
+      return
     end
   end
 

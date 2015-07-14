@@ -1,5 +1,0 @@
-class GamesController < ApplicationController
-
-  
-
-end
