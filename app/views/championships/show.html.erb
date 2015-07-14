@@ -1,0 +1,33 @@
+<script type="text/javascript">  
+  $(function() {
+    var id = "<%= params[:id] %>"
+    var championship = new PingPong.Models.Championship();       
+    championship.set("id", id);
+    var championship_detail = new PingPong.Views.ChampionshipDetail({model: championship});
+    championship.fetch({success: function(model, response, option){
+      console.log(model.toJSON())
+      $("#championship-detail").html(championship_detail.render().el);
+    }});
+  });
+</script>
+
+<div class="col-sm-12" id="championship-detail">
+
+</div>
+<script type="javascript/template" id="championship-detail-template">
+    <h1 style="text-align:center">{{title}}</h1>
+    <div class="col-sm-12">
+      <div class="col-sm-6 well pull-left">
+        <h2>Players</h2>
+        {{#players}}
+          <div><span class="bold">Name:</span> {{name}} <span class="bold">Identity:</span> {{identity}} <span class="bold">Defence Length:</span> {{defence_length}}</div>
+        {{/players}}
+      </div>
+      <div class="col-sm-6 well pull-left">
+        <h2>Games</h2>
+        {{#games}}
+          <div><span class="bold">Player1:</span> {{player1_identity}} <span class="bold">Player2:</span> {{player2_identity}} </div>
+        {{/games}}
+      </div>
+    </div>
+</script>

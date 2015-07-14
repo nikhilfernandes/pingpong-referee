@@ -8,14 +8,14 @@ class Player < ActiveRecord::Base
   validate :number_of_players
   validate :duplicate_entry, :on => :create
 
-  # before_create :update_players_info
+  before_create :update_players_info
   after_create :create_games, if: :eight_players_have_joined?
   
 
   
 
   def number_of_players    
-    errors.add(:identity, "The championship has exceeded the number of players") if self.championship.reload.players.size == 8
+    errors.add(:identity, "The championship has exceeded the number of players") if self.championship.reload.players.size == 4
   end
 
   def duplicate_entry    
@@ -34,19 +34,19 @@ class Player < ActiveRecord::Base
   end
 
   def eight_players_have_joined?
-    self.championship.players.size == 8
+    self.championship.players.size == 4
   end
 
   def create_games
     self.championship.create_games
   end
 
-  # def update_players_info
-  #   self.championship.reload
-  #   self.championship.players.each do |player|       
-  #     HttpRequest.put(player.host, player.port, "/championships/#{championship.id}", {championship: {status: self.championship.status, num_players_joined: self.championship.players.size+1}}, player.auth_token)      
-  #   end
-  # end
+  def update_players_info
+    self.championship.reload
+    self.championship.players.each do |player|       
+      HttpRequest.put(player.host, player.port, "/championships/#{championship.id}", {championship: {status: self.championship.status, num_players_joined: self.championship.players.size+1}}, player.auth_token)      
+    end
+  end
 
 
 end

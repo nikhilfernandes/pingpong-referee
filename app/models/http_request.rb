@@ -13,7 +13,7 @@ class HttpRequest
     response = conn.post do |req|
       req.url path
       req.headers = Faraday::Utils::Headers.new(headers)
-      req.body = ::Addressable::URI.form_encode(params)
+      req.body = params
     end        
   end
 
@@ -29,7 +29,7 @@ class HttpRequest
     response = conn.put do |req|
       req.url path
       req.headers = Faraday::Utils::Headers.new(headers)
-      req.body = ::Addressable::URI.form_encode(params)
+      req.body = params
     end        
   end
 
