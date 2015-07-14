@@ -54,6 +54,7 @@ describe Player do
 
     it "should validate the number of players to not be more than 8" do
       championship =   create(:championship, title: "test")
+      HttpRequest.should_receive(:post).exactly(8).times
       create(:player, championship: championship)
       create(:player, championship: championship)
       create(:player, championship: championship)
@@ -63,7 +64,7 @@ describe Player do
       create(:player, championship: championship)
       create(:player, championship: championship)      
       extra_player = build(:player, championship: championship)
-      extra_player.save
+      extra_player.save      
       championship.reload
       championship.players.size.should eq(8)
       extra_player.errors_on(:championship).should include("The championship has exceeded the number of players")

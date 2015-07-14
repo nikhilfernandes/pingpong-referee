@@ -10,6 +10,8 @@ class Player < ActiveRecord::Base
 
   after_create :create_games, if: :eight_players_have_joined?
 
+  
+
   def number_of_players    
     errors.add(:championship, "The championship has exceeded the number of players") if self.championship.reload.players.size == 8
   end

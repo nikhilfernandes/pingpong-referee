@@ -5,8 +5,12 @@ class RoundsController < ApplicationController
   def update
     championship = Championship.find(params[:championship_id])
     game = championship.games.find(params[:game_id])
-    round = game.rounds.find(params[:id])
+    round = game.rounds.find(params[:id])    
     round.update_attributes(params[:round])
+    if round.valid?
+      
+    else
+    end
   end
 
   def validate_player!    

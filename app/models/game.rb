@@ -7,6 +7,11 @@ class Game < ActiveRecord::Base
     COMPLETED = "completed"
   end
 
+  module ROLE
+    OFFENSE = "offense"
+    DEFENSE = "defense"
+  end
+
 
   def update
 

@@ -7,7 +7,9 @@ Rails.application.routes.draw do
     get 'login' => 'sessions#new', :as => :referee_login
 
     resources :championships do
-      resources :games      
+      resources :games do
+        resources :rounds
+      end
       resources :players    
     end
   end

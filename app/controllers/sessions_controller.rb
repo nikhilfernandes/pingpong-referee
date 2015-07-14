@@ -1,11 +1,9 @@
 class SessionsController < Devise::SessionsController
   skip_before_filter :authenticate_referee!, :only => [:create]
 
-  
-
   def create
     resource = warden.authenticate!(:scope => resource_name, :recall => "#{controller_path}#failure")
-      return sign_in_and_redirect(resource_name, resource)
+    return sign_in_and_redirect(resource_name, resource)
   end 
 
   def sign_in_and_redirect(resource_or_scope, resource=nil)
