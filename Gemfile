@@ -14,6 +14,8 @@ gem 'spring',        group: :development
 gem "devise"
 gem 'pg', "~>0.17.1"
 gem 'rack-cors', :require => 'rack/cors'
+gem "faraday", "~> 0.9.1"
+gem "addressable", "~> 2.3.7"
 
 group :development, :test do
   gem 'rspec', "~> 2.14.0"

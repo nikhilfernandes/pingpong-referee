@@ -6,7 +6,7 @@ class Player < ActiveRecord::Base
   validates_numericality_of :defence_length
 
   validate :number_of_players
-  validate :duplicate_entry
+  validate :duplicate_entry, :on => :create
 
   after_create :create_games, if: :eight_players_have_joined?
 
