@@ -6,7 +6,13 @@ class PlayersController < ApplicationController
   def create 
     championship = Championship.find(params[:championship_id])   
     player = championship.players.create(params.require(:player).permit(:identity, :name, :defence_length, :host, :port, :path))    
-    respond_with(player, location: "")    
+    if player.valid?
+      render json: player.as_json(include: [:championship]), status: :created
+      return
+    else
+      render json: { :errors => player.errors.full_messages }, status: :unprocessable_entity
+    end
+    
   end
 
 end

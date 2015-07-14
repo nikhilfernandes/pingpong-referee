@@ -15,6 +15,7 @@ describe PlayersController do
       response_body["auth_token"].should_not be_nil
       response_body["auth_token"].should eq(championship.players.first.auth_token)
       response_body["identity"].should eq("1212121")
+      response_body["championship"]["id"].should eq(championship.id)
     end
 
     it "should not create a player if 8 players are already present" do
@@ -33,7 +34,8 @@ describe PlayersController do
       championship.players.count.should eq(8)
       response.status.should eq(422)                  
       response_body = JSON.parse(response.body)
-      response_body["errors"]["identity"].should include("The championship has exceeded the number of players")
+      
+      response_body["errors"].should include("Identity The championship has exceeded the number of players")
       
     end
   end

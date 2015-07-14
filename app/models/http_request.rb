@@ -14,12 +14,7 @@ class HttpRequest
       req.url path
       req.headers = Faraday::Utils::Headers.new(headers)
       req.body = ::Addressable::URI.form_encode(params)
-    end    
-    # headers = { 'Content-Type' => 'application/json', 'accept' => 'application/json', "X_AUTHENTICATION_TOKEN"=> auth_token }
-    # http = Net::HTTP.new(host, port)
-    # payload = JSON.generate params
-    # request = Net::HTTP::Post.new(path, headers)    
-    # res = http.request(request, payload)
+    end        
   end
 
 end
