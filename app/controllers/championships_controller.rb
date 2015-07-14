@@ -26,6 +26,13 @@ class ChampionshipsController < ApplicationController
   end
 
   def show
+    if request.format == :html    
+      respond_to do |format|
+        format.html
+        return
+      end
+    end
+
     begin
       championship = current_referee.championships.find(params[:id])
     rescue ActiveRecord::RecordNotFound => e
