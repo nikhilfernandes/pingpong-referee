@@ -5,6 +5,7 @@ PingPong.Collections.Championships = Backbone.Collection.extend({
 
   },
 
-  url: function(){    
+  url: function(){   
+    return "/championships" 
   }
 });

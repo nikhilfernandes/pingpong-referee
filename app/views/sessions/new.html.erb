@@ -6,7 +6,7 @@
       type: "POST",
       data: {referee: {email: $("#inputEmail").val(), password: $("#inputPassword").val()}},
       success: function(data){
-        console.log(data)
+        window.location.href = "/championships/dashboard"
       },
       error: function(data){
         res = $.parseJSON(data["responseText"]);
