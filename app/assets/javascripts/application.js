@@ -13,4 +13,11 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
+//= require underscore
+//= require mustache
+//= require backbone.min
+//= require pingpong
+//= require_tree ./backbone/views
+//= require_tree ./backbone/models
+//= require_tree ./backbone/collections
 //= require_tree .

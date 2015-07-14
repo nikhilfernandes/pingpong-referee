@@ -2,6 +2,13 @@ class ChampionshipsController < ApplicationController
   respond_to :json, :html
   skip_before_filter :authenticate_referee!, :only => [:index]
 
+  def new
+
+  end
+
+  def dashboard
+  end
+
 
   def index
     if current_referee.nil?

@@ -7,7 +7,26 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Ping Pong Referee</a>
+      
+    </div>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a class="nav-brand"  href="/championships/dashboard" rel="nofollow" style="color: #FFF;">Championships</a></li>
+      <li><a class="nav-brand"  href="/championships/new" rel="nofollow" style="color: #FFF;">Create Championship</a></li>
+      <li><a class="nav-brand" data-method="delete" href="/logout" rel="nofollow" style="color: #FFF;">Logout</a></li></ul>
+      
+    
+  </div>
+</nav>
 <%= yield %>
 
 </body>
