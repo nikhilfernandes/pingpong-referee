@@ -13,6 +13,7 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 gem 'spring',        group: :development
 gem "devise"
 gem 'pg', "~>0.17.1"
+gem 'rack-cors', :require => 'rack/cors'
 
 group :development, :test do
   gem 'rspec', "~> 2.14.0"

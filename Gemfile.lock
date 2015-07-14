@@ -74,6 +74,7 @@ GEM
     orm_adapter (0.5.0)
     pg (0.17.1)
     rack (1.5.5)
+    rack-cors (0.2.9)
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (4.1.12)
@@ -167,6 +168,7 @@ DEPENDENCIES
   jquery-rails
   json_spec
   pg (~> 0.17.1)
+  rack-cors
   rails (= 4.1.12)
   rspec (~> 2.14.0)
   rspec-rails (~> 2.14.0)

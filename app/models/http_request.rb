@@ -1,3 +1,6 @@
+require "net/http"
+require "uri"
+
 class HttpRequest
 
   def self.post(host, port, path, params, auth_token)    

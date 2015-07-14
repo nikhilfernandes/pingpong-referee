@@ -67,7 +67,7 @@ describe Player do
       extra_player.save      
       championship.reload
       championship.players.size.should eq(8)
-      extra_player.errors_on(:championship).should include("The championship has exceeded the number of players")
+      extra_player.errors_on(:identity).should include("The championship has exceeded the number of players")
       
     end
 

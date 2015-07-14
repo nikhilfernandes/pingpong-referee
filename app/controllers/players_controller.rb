@@ -1,11 +1,12 @@
 class PlayersController < ApplicationController
   respond_to :json
   skip_before_filter :authenticate_referee!, :only => [:create]
+  skip_before_filter :verify_authenticity_token
 
   def create 
     championship = Championship.find(params[:championship_id])   
     player = championship.players.create(params.require(:player).permit(:identity, :name, :defence_length, :host, :port, :path))    
-    respond_with(player, location: "")
+    respond_with(player, location: "")    
   end
 
 end

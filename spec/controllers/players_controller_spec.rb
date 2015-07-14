@@ -33,7 +33,7 @@ describe PlayersController do
       championship.players.count.should eq(8)
       response.status.should eq(422)                  
       response_body = JSON.parse(response.body)
-      response_body["errors"]["championship"].should include("The championship has exceeded the number of players")
+      response_body["errors"]["identity"].should include("The championship has exceeded the number of players")
       
     end
   end

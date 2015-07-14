@@ -13,7 +13,7 @@ class Player < ActiveRecord::Base
   
 
   def number_of_players    
-    errors.add(:championship, "The championship has exceeded the number of players") if self.championship.reload.players.size == 8
+    errors.add(:identity, "The championship has exceeded the number of players") if self.championship.reload.players.size == 8
   end
 
   def duplicate_entry    
