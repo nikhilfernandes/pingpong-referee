@@ -43,6 +43,7 @@ describe Player do
 
     it "should validate that the same player cannot join the game twice" do
       championship =   create(:championship, title: "test")
+      HttpRequest.should_receive(:put).exactly(1).times
       create(:player, championship: championship, identity: "1211111")
       create(:player, championship: championship, identity: "23232232")
       duplicate_player = build(:player, championship: championship, identity: "1211111")
@@ -55,6 +56,7 @@ describe Player do
     it "should validate the number of players to not be more than 8" do
       championship =   create(:championship, title: "test")
       HttpRequest.should_receive(:post).exactly(8).times
+      HttpRequest.should_receive(:put).exactly(28).times
       create(:player, championship: championship)
       create(:player, championship: championship)
       create(:player, championship: championship)

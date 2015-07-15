@@ -21,6 +21,7 @@ describe PlayersController do
     it "should not create a player if 8 players are already present" do
       championship = create(:championship) 
       HttpRequest.should_receive(:post).exactly(8).times    
+      HttpRequest.should_receive(:put).exactly(28).times
       create(:player, championship: championship)
       create(:player, championship: championship)
       create(:player, championship: championship)

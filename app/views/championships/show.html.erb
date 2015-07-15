@@ -5,7 +5,6 @@
     championship.set("id", id);
     var championship_detail = new PingPong.Views.ChampionshipDetail({model: championship});
     championship.fetch({success: function(model, response, option){
-      console.log(model.toJSON())
       $("#championship-detail").html(championship_detail.render().el);
     }});
   });

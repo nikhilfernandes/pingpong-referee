@@ -8,6 +8,7 @@ class RoundsController < ApplicationController
     round = game.rounds.find(params[:id])    
     round.update_attributes(params[:round])
     if round.valid?
+      championship.round_completed
       render json: round, status: :ok
       return
     else

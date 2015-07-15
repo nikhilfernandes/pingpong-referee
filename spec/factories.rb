@@ -20,6 +20,8 @@ FactoryGirl.define do
 
   factory :game do    
     championship
+    player1_identity { generate(:email) }
+    player2_identity { generate(:email) }
   end
 
   factory :player do    
@@ -30,6 +32,10 @@ FactoryGirl.define do
     host "host"
     port "port"
     path "path"
+  end
+
+  factory :round do
+    game
   end
 
     

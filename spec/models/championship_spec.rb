@@ -13,6 +13,7 @@ describe Championship do
   it "should create games when 8 players have joined" do
       championship =   create(:championship, title: "test")
       HttpRequest.should_receive(:post).exactly(8).times
+      HttpRequest.should_receive(:put).exactly(28).times
       first_player = create(:player, championship: championship)
       second_player = create(:player, championship: championship)
       create(:player, championship: championship)
