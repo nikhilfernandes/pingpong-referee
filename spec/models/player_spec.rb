@@ -47,8 +47,7 @@ describe Player do
       create(:player, championship: championship, identity: "1211111")
       create(:player, championship: championship, identity: "23232232")
       duplicate_player = build(:player, championship: championship, identity: "1211111")
-      duplicate_player.save
-      
+      duplicate_player.save      
       duplicate_player.errors_on(:identity).should include("The player has already joined the game")
       
     end    
