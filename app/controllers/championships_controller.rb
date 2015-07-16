@@ -3,21 +3,14 @@ class ChampionshipsController < ApplicationController
   skip_before_filter :authenticate_referee!, :only => [:index]
 
   def new
-
   end
 
   def dashboard
   end
 
-
-  def index
-    if current_referee.nil?
-      respond_with(Championship.all, location: "")
-      return
-    else
-      respond_with(current_referee.championships, location: "")
-      return
-    end
+  def index    
+    return respond_with(Championship.all, location: "") if current_referee.nil?
+    return respond_with(current_referee.championships, location: "")
   end
 
   def create
@@ -26,18 +19,11 @@ class ChampionshipsController < ApplicationController
   end
 
   def show
-    if request.format == :html    
-      respond_to do |format|
-        format.html
-        return
-      end
-    end
-
+    return respond_to { |format| format.html} if request.format == :html    
     begin
       championship = current_referee.championships.find(params[:id])
     rescue ActiveRecord::RecordNotFound => e
-      render json: {message: "Does not exist"}, status: :not_found
-      return
+      return render json: {message: "Does not exist"}, status: :not_found      
     end 
     render json: championship.as_json(include: [:players, :games])
   end

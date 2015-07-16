@@ -9,21 +9,18 @@ class RoundsController < ApplicationController
     round.update_attributes(params[:round])
     if round.valid?
       championship.round_completed
-      render json: round, status: :ok
-      return
+      return render json: round, status: :ok
+      
     else
-      render json: { :errors => round.errors.full_messages }, status: :unprocessable_entity      
-      return
+      return render json: { :errors => round.errors.full_messages }, status: :unprocessable_entity      
+      
     end
   end
 
   def validate_player!    
     championship = Championship.find(params[:championship_id])   
     auth_token = request.headers["HTTP_X_AUTHENTICATION_TOKEN"]
-    player = auth_token && championship.players.where(auth_token: auth_token).first 
-    unless player
-      render json: {errors: {message: "You are not authorized to perform this operation.", auth_token: auth_token }}, status: :unauthorized
-      return
-    end                        
+    player = auth_token && championship.players.where(auth_token: auth_token).first     
+    return render json: {errors: {message: "You are not authorized to perform this operation.", auth_token: auth_token }}, status: :unauthorized unless player
   end
 end
