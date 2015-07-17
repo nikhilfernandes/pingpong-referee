@@ -8,7 +8,7 @@ describe Game do
     championship = create(:championship)
     player1 = create(:player, championship: championship)
     player2 = create(:player, defence_length: 3, championship: championship)
-    HttpRequest.should_receive(:post).exactly(2).times
+    HttpRequest.should_receive(:post).exactly(4).times
     game = create(:game, championship: championship, player1_identity: player1.identity, player2_identity: player2.identity)
     game.rounds.size.should eq(1)
   end
@@ -18,7 +18,7 @@ describe Game do
     championship = create(:championship)
     player1 = create(:player, championship: championship)
     player2 = create(:player, defence_length: 3, championship: championship)
-    HttpRequest.should_receive(:post).exactly(4).times
+    HttpRequest.should_receive(:post).exactly(6).times
     game = create(:game, championship: championship, player1_identity: player1.identity, player2_identity: player2.identity)
     game.update_score(game.player1_identity)
     game.rounds.size.should eq(2)
@@ -30,7 +30,7 @@ describe Game do
     championship = create(:championship)
     player1 = create(:player, championship: championship)
     player2 = create(:player, defence_length: 3, championship: championship)
-    HttpRequest.should_receive(:post).exactly(2).times
+    HttpRequest.should_receive(:post).exactly(4).times
     game = create(:game, championship: championship, player1_identity: player1.identity, player2_identity: player2.identity, player1_score: 4, player2_score: 2)
     game.update_score(game.player1_identity)
     game.rounds.size.should eq(1)

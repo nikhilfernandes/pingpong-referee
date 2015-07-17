@@ -7,7 +7,7 @@ describe Round do
     it "should validate chance" do
         player1 = create(:player)
         player2 = create(:player)        
-        HttpRequest.should_receive(:post).exactly(2).times  
+        HttpRequest.should_receive(:post).exactly(4).times  
         game = create(:game, player1_identity: player1.identity, player2_identity: player2.identity)                
         round = game.rounds.first
         round.update_attributes({last_played_by: player2.identity, offensive_number: 1})
@@ -17,7 +17,7 @@ describe Round do
     it "should validate game player" do
         player1 = create(:player)
         player2 = create(:player)        
-        HttpRequest.should_receive(:post).exactly(2).times  
+        HttpRequest.should_receive(:post).exactly(4).times  
         game = create(:game, player1_identity: player1.identity, player2_identity: player2.identity)                
         round = game.rounds.first
         round.update_attributes({last_played_by: "asasa", offensive_number: 1})
@@ -27,7 +27,7 @@ describe Round do
     it "should validate offensive number between 1..10" do
         player1 = create(:player)
         player2 = create(:player)        
-        HttpRequest.should_receive(:post).exactly(2).times  
+        HttpRequest.should_receive(:post).exactly(4).times  
         game = create(:game, player1_identity: player1.identity, player2_identity: player2.identity)                
         round = game.rounds.first
         round.update_attributes({last_played_by: player1.identity, offensive_number: 11})
@@ -39,7 +39,7 @@ describe Round do
         championship = create(:championship)
         player1 = create(:player, championship: championship)
         player2 = create(:player, defence_length: 3, championship: championship)      
-        HttpRequest.should_receive(:post).exactly(2).times  
+        HttpRequest.should_receive(:post).exactly(4).times  
         game = create(:game, player1_identity: player1.identity, player2_identity: player2.identity, championship: championship)                
         round = game.rounds.first                
         round.update_attributes({last_played_by: player1.identity, offensive_number: 1})
@@ -53,7 +53,7 @@ describe Round do
     it "should modify turn after save" do
         player1 = create(:player)
         player2 = create(:player)
-        HttpRequest.should_receive(:post).exactly(2).times
+        HttpRequest.should_receive(:post).exactly(4).times
         game = create(:game, player1_identity: player1.identity, player2_identity: player2.identity)                
         round = game.rounds.first
         round.update_attributes({last_played_by: player1.identity, offensive_number: 1})
@@ -63,7 +63,7 @@ describe Round do
 
   describe "handle round played" do
     it "should set winner as defense player if round is over and number present in defense array" do
-        HttpRequest.should_receive(:put).exactly(1).times
+        HttpRequest.should_receive(:put).exactly(3).times
         championship = create(:championship)
         player1 = create(:player, championship: championship)
         player2 = create(:player, defence_length: 3, championship: championship)
@@ -78,7 +78,7 @@ describe Round do
     end
 
     it "should set winner as offense player if number not present in defense array" do
-        HttpRequest.should_receive(:put).exactly(1).times
+        HttpRequest.should_receive(:put).exactly(3).times
         championship = create(:championship)
         player1 = create(:player, championship: championship)
         player2 = create(:player, defence_length: 3, championship: championship)

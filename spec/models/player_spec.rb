@@ -54,7 +54,7 @@ describe Player do
 
     it "should validate the number of players to not be more than 8" do
       championship =   create(:championship, title: "test")
-      HttpRequest.should_receive(:post).exactly(8).times
+      HttpRequest.should_receive(:post).exactly(16).times
       HttpRequest.should_receive(:put).exactly(28).times
       create(:player, championship: championship)
       create(:player, championship: championship)

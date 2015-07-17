@@ -12,7 +12,7 @@ describe Championship do
 
   it "should create games when 8 players have joined" do
       championship =   create(:championship, title: "test")
-      HttpRequest.should_receive(:post).exactly(8).times
+      HttpRequest.should_receive(:post).exactly(16).times
       HttpRequest.should_receive(:put).exactly(28).times
       first_player = create(:player, championship: championship)
       second_player = create(:player, championship: championship)
@@ -34,7 +34,7 @@ describe Championship do
     describe "game_completed" do
       it "should create more games if league completed" do
         championship =   create(:championship, title: "test")
-        HttpRequest.should_receive(:post).exactly(12).times
+        HttpRequest.should_receive(:post).exactly(24).times
         HttpRequest.should_receive(:put).exactly(28).times
         first_player = create(:player, championship: championship)
         second_player = create(:player, championship: championship)
@@ -55,7 +55,7 @@ describe Championship do
 
       it "should set winner if championship completed" do
         championship =   create(:championship, title: "test")
-        HttpRequest.should_receive(:post).exactly(14).times
+        HttpRequest.should_receive(:post).exactly(28).times
         HttpRequest.should_receive(:put).exactly(28).times
         first_player = create(:player, championship: championship)
         second_player = create(:player, championship: championship)

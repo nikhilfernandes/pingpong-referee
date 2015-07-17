@@ -49,13 +49,21 @@ class Player < ActiveRecord::Base
     end
   end
 
-  def notify_new_round(game_id, opponent_identity, order_of_play, role)
-    HttpRequest.post(self.host, self.port, self.path, {game: {championship_id: championship.id, identity: game_id, oponent_identity: opponent_identity, order_of_play: order_of_play, role: role,  status: Game::STATUS::STARTED}}, self.auth_token)
+  def notify_new_game(game_id, opponent_identity)
+    HttpRequest.post(self.host, self.port, "/championships/#{championship.id}/games", {game: {game_identity: game_id ,oponent_identity: opponent_identity, status: Game::STATUS::STARTED}}, self.auth_token)
   end
 
-  def notify_player_of_outcome(game_id, outcome)
+    def notify_game_outcome(game_id, outcome)
+    HttpRequest.put(self.host, self.port, "/championships/#{championship.id}/games/#{game_id}", {game: {game_identity: game_id ,outcome: outcome, status: Game::STATUS::COMPLETED}}, self.auth_token)
+  end
+
+  def notify_new_round(game_id, round_id, order_of_play, role)
+    HttpRequest.post(self.host, self.port, "/championships/#{championship.id}/games/#{game_id}/rounds", {round: {round_identity: round_id , order_of_play: order_of_play, role: role}}, self.auth_token)
+  end
+
+  def notify_player_of_outcome_round(game_id, round_id, outcome)
     role = outcome == Round::Outcome::WON ? Game::ROLE::OFFENSE : Game::ROLE::DEFENSE
-    HttpRequest.post(self.host, self.port, self.path, {game: {championship_id: championship.id, identity: game_id, role: role, outcome: outcome}}, self.auth_token)
+    HttpRequest.put(self.host, self.port, "/championships/#{championship.id}/games/#{game_id}/rounds/#{round_id}", {round: {role: role, outcome: outcome}}, self.auth_token)
   end
 
 end

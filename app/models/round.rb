@@ -73,9 +73,9 @@ class Round < ActiveRecord::Base
   def handle_round_played
     if round_over?      
       self.update_column(:winner, winner_identity)      
-      game.update_score(winner_identity)
       notify_player_of_outcome(winner_identity, Outcome::WON)
       notify_player_of_outcome(loser_identity, Outcome::LOST)         
+      game.update_score(winner_identity)      
     else
       switch_turn unless turn_was.nil?
     end
@@ -85,19 +85,18 @@ class Round < ActiveRecord::Base
 
   def notify_player_of_outcome(player_identity, outcome)
     player = game.championship.players.find_by_identity(player_identity)
-    player.notify_player_of_outcome(self.game.id, outcome)
-    
+    player.notify_player_of_outcome_round(self.game.id, self.id, outcome)    
   end
 
   def notify_players_of_new_round
     player1 = Player.find_by_identity(game.player1_identity)
     player2 = Player.find_by_identity(game.player2_identity)
     if turn == player1.identity
-      player1.notify_new_round(game.id, player2.identity, 1, Game::ROLE::OFFENSE)
-      player2.notify_new_round(game.id, player1.identity, 2, Game::ROLE::DEFENSE)
+      player1.notify_new_round(game.id, self.id, 1, Game::ROLE::OFFENSE)
+      player2.notify_new_round(game.id, self.id, 2, Game::ROLE::DEFENSE)
     else
-      player1.notify_new_round(game.id, player2.identity, 2, Game::ROLE::DEFENSE)
-      player2.notify_new_round(game.id, player1.identity, 1, Game::ROLE::OFFENSE)
+      player1.notify_new_round(game.id, self.id, 2, Game::ROLE::DEFENSE)
+      player2.notify_new_round(game.id, self.id, 1, Game::ROLE::OFFENSE)
     end    
     
     
