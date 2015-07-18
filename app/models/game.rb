@@ -1,8 +1,9 @@
 class Game < ActiveRecord::Base
   belongs_to :championship
   has_many :rounds
-  after_create :create_round
   after_create :notify_players
+  after_create :create_round
+  
   
 
   module STATUS
@@ -103,15 +104,15 @@ class Game < ActiveRecord::Base
   end
 
   def notify_players
-    player1 = Player.find_by_identity(self.player1_identity)
-    player2 = Player.find_by_identity(self.player2_identity)
+    player1 = self.championship.players.find_by_identity(self.player1_identity)
+    player2 = self.championship.players.find_by_identity(self.player2_identity)
     player1.notify_new_game(self.id, player2.identity)
     player2.notify_new_game(self.id, player1.identity)
   end
 
   def notify_players_game_outcome
-    winner_player = Player.find_by_identity(self.winner)
-    loser_player = Player.find_by_identity(self.loser)
+    winner_player = self.championship.players.find_by_identity(self.winner)
+    loser_player = self.championship.players.find_by_identity(self.loser)
     winner_player.notify_game_outcome(self.id, Round::Outcome::WON)
     loser_player.notify_game_outcome(self.id, Round::Outcome::LOST)
   end

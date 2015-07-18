@@ -1,0 +1,12 @@
+development: 
+  host: localhost
+  port: 6379
+  password: 
+staging: 
+  host:
+  port:
+  password:
+production: 
+  host:
+  port:
+  password:

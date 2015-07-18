@@ -15,7 +15,7 @@ class Player < ActiveRecord::Base
   
 
   def number_of_players    
-    errors.add(:identity, "The championship has exceeded the number of players") if self.championship.reload.players.size == championship.number_of_players
+    errors.add(:identity, "The championship has exceeded the number of players") if self.championship.reload.players.size > championship.number_of_players
   end
 
   def duplicate_entry    
@@ -45,25 +45,29 @@ class Player < ActiveRecord::Base
   def update_players_info
     self.championship.reload
     self.championship.players.each do |player|       
-      HttpRequest.put(player.host, player.port, "/championships/#{championship.id}", {championship: {status: self.championship.status, num_players_joined: self.championship.players.size+1}}, player.auth_token)      
+    Resque.enqueue(AsyncJob, {host: self.host, port: self.port, path: "/championships/#{championship.id}", method: "put", payload: {championship: {status: self.championship.status, num_players_joined: self.championship.players.size+1}}, auth_token: self.auth_token})    
     end
   end
 
   def notify_new_game(game_id, opponent_identity)
-    HttpRequest.post(self.host, self.port, "/championships/#{championship.id}/games", {game: {game_identity: game_id ,oponent_identity: opponent_identity, status: Game::STATUS::STARTED}}, self.auth_token)
+    Resque.enqueue(AsyncJob, {host: self.host, port: self.port, path: "/championships/#{championship.id}/games", method: "post", payload: {game: {game_identity: game_id ,oponent_identity: opponent_identity, status: Game::STATUS::STARTED}}, auth_token: self.auth_token})
+    # HttpRequest.post(self.host, self.port, "/championships/#{championship.id}/games", {game: {game_identity: game_id ,oponent_identity: opponent_identity, status: Game::STATUS::STARTED}}, self.auth_token)
   end
 
-    def notify_game_outcome(game_id, outcome)
-    HttpRequest.put(self.host, self.port, "/championships/#{championship.id}/games/#{game_id}", {game: {game_identity: game_id ,outcome: outcome, status: Game::STATUS::COMPLETED}}, self.auth_token)
+  def notify_game_outcome(game_id, outcome)
+    Resque.enqueue(AsyncJob, {host: self.host, port: self.port, path: "/championships/#{championship.id}/games/#{game_id}", payload: {game: {game_identity: game_id ,outcome: outcome, status: Game::STATUS::COMPLETED}}, auth_token: self.auth_token})
+    # HttpRequest.put(self.host, self.port, "/championships/#{championship.id}/games/#{game_id}", {game: {game_identity: game_id ,outcome: outcome, status: Game::STATUS::COMPLETED}}, self.auth_token)
   end
 
   def notify_new_round(game_id, round_id, order_of_play, role)
-    HttpRequest.post(self.host, self.port, "/championships/#{championship.id}/games/#{game_id}/rounds", {round: {round_identity: round_id , order_of_play: order_of_play, role: role}}, self.auth_token)
+    Resque.enqueue(AsyncJob, {host: self.host, port: self.port, path: "/championships/#{championship.id}/games/#{game_id}/rounds", method: "post", payload: {round: {round_identity: round_id , order_of_play: order_of_play, role: role}}, auth_token: self.auth_token})
+    # HttpRequest.post(self.host, self.port, "/championships/#{championship.id}/games/#{game_id}/rounds", {round: {round_identity: round_id , order_of_play: order_of_play, role: role}}, self.auth_token)
   end
 
   def notify_player_of_outcome_round(game_id, round_id, outcome)
     role = outcome == Round::Outcome::WON ? Game::ROLE::OFFENSE : Game::ROLE::DEFENSE
-    HttpRequest.put(self.host, self.port, "/championships/#{championship.id}/games/#{game_id}/rounds/#{round_id}", {round: {role: role, outcome: outcome}}, self.auth_token)
+    Resque.enqueue(AsyncJob, {host: self.host, port: self.port, path: "/championships/#{championship.id}/games/#{game_id}/rounds/#{round_id}", method: "put", payload: {round: {role: role, outcome: outcome}}, auth_token: self.auth_token})
+    # HttpRequest.put(self.host, self.port, "/championships/#{championship.id}/games/#{game_id}/rounds/#{round_id}", {round: {role: role, outcome: outcome}}, self.auth_token)
   end
 
 end

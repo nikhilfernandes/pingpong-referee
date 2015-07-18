@@ -1,20 +1,37 @@
 <script type="text/javascript">
   $(function() {
     $("#start-championship-button").on("click", function(){
-      if($("#inputTitle").val() == ""){
-        $("#inputTitle").addClass("error");
-        return false
+      var errors = false;
+      if($("#title").val() == ""){
+        $("#title").addClass("error");
+        errors = true
+      }  
+      if($("#number_of_players").val() == ""){
+        $("#number_of_players").addClass("error");
+        errors = true
+      }  
+      if(errors){
+        return false;
+      
       }else{
         $.ajax({
         url: "/championships",
         type: "POST",
-        data: {championship: {title: $("#inputTitle").val()}},
+        data: {championship: {title: $("#title").val(), number_of_players: $("#number_of_players").val()}},
         success: function(data){
           window.location.href = "/championships/"+data.id;
         },
         error: function(data){
-          res = $.parseJSON(data["responseText"]);
-          $(".error").html(res.error);        
+          res = $.parseJSON(data["responseText"]);      
+        _.each(["title","number_of_players"], function(field){
+          $("#"+field).css("border", "")
+          $("#"+field+"-error").text("")
+        });                   
+        _.each(res["errors"], function (error, field) {         
+          $("#"+field).css("border", "1px solid red")
+          $("#"+field+"-error").text(_.str.humanize(" "+error))
+                              
+        });   
         },
         dataType: "json"
       });   
@@ -30,8 +47,10 @@
 
 
 <div style="margin:auto;margin-top:100px;float:none;text-align:center" class="col-sm-3">
-  <div class="error"></div>
-  <input type="text" id="inputTitle" class="form-control" placeholder="Title" required="" style="margin-bottom:10px;">
+  <div id="title-error" class="error"></div>
+  <input type="text" id="title" class="form-control" placeholder="Title" required="" style="margin-bottom:10px;">
+  <div id="number_of_players-error" class="error"></div>
+  <input type="text" id="number_of_players" class="form-control" placeholder="Number of Players" required="" style="margin-bottom:10px;">
   <a class="btn btn-lg btn-success" href="#" role="button" id="start-championship-button" >Start 
   Championship</a>
 </div>

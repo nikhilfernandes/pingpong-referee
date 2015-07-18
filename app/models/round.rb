@@ -89,8 +89,8 @@ class Round < ActiveRecord::Base
   end
 
   def notify_players_of_new_round
-    player1 = Player.find_by_identity(game.player1_identity)
-    player2 = Player.find_by_identity(game.player2_identity)
+    player1 = self.game.championship.players.find_by_identity(game.player1_identity)
+    player2 = self.game.championship.players.find_by_identity(game.player2_identity)
     if turn == player1.identity
       player1.notify_new_round(game.id, self.id, 1, Game::ROLE::OFFENSE)
       player2.notify_new_round(game.id, self.id, 2, Game::ROLE::DEFENSE)
