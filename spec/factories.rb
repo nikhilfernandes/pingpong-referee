@@ -16,6 +16,7 @@ FactoryGirl.define do
 
   factory :championship do    
     title "title"
+    number_of_players 8
   end
 
   factory :game do    

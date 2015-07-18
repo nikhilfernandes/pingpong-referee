@@ -32,6 +32,7 @@ describe Game do
     player2 = create(:player, defence_length: 3, championship: championship)
     HttpRequest.should_receive(:post).exactly(4).times
     game = create(:game, championship: championship, player1_identity: player1.identity, player2_identity: player2.identity, player1_score: 4, player2_score: 2)
+    championship.stub(:game_completed)
     game.update_score(game.player1_identity)
     game.rounds.size.should eq(1)
     game.status.should eq(Game::STATUS::COMPLETED)

@@ -14,7 +14,7 @@ class ChampionshipsController < ApplicationController
   end
 
   def create
-    championship = current_referee.championships.create(params.require(:championship).permit(:title))
+    championship = current_referee.championships.create(params.require(:championship).permit(:title, :number_of_players))
     respond_with(championship, location: "")
   end
 

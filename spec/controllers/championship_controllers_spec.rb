@@ -9,7 +9,7 @@ describe ChampionshipsController do
     it "should create a championship for a referee" do
       referee = create(:referee)
       sign_in referee
-      post :create, championship: {title: "test"}, :format => "json"
+      post :create, championship: {title: "test", number_of_players: 6}, :format => "json"
       response.status.should eq(201)                  
       response_body = JSON.parse(response.body)
       response_body["title"].should eq("test")
@@ -22,6 +22,15 @@ describe ChampionshipsController do
       response.status.should eq(422)                  
       response_body = JSON.parse(response.body)
       response_body["errors"]["title"].should include("can't be blank")
+    end
+
+    it "should not create a championship if number of players is not between 2 and 16" do
+      referee = create(:referee)
+      sign_in referee
+      post :create, championship: {title: "", number_of_players: 1}, :format => "json"
+      response.status.should eq(422)                  
+      response_body = JSON.parse(response.body)
+      response_body["errors"]["number_of_players"].should include("The number of players can be between 2..16")
     end
   end
 
