@@ -73,6 +73,10 @@ class Championship < ActiveRecord::Base
     self.winner = winner_identity
     self.status = Status::CLOSED
     self.save
+    self.reload
+    self.players.each do |player|       
+      Resque.enqueue(AsyncJob, {host: player.host, port: player.port, path: "/championships/#{self.id}", method: "put", payload: {championship: {status: self.status}}, auth_token: player.auth_token})    
+    end
   end
 
   def bye_player_exists?

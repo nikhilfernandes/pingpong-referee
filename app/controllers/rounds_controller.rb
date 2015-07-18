@@ -6,6 +6,10 @@ class RoundsController < ApplicationController
 
   def update
     championship = Championship.find(params[:championship_id])
+    if championship.status == Championship::Status::CLOSED
+      render json: {errors: "This championship is closed."}
+      return
+    end
     game = championship.games.find(params[:game_id])
     round = game.rounds.find(params[:id])    
     round.update_attributes(params.require(:round).permit(:last_played_by, :defensive_array, :offensive_number))

@@ -49,6 +49,8 @@ class Player < ActiveRecord::Base
     end
   end
 
+  
+
   def notify_new_game(game_id, opponent_identity)
     Resque.enqueue(AsyncJob, {host: self.host, port: self.port, path: "/championships/#{championship.id}/games", method: "post", payload: {game: {game_identity: game_id ,oponent_identity: opponent_identity, status: Game::STATUS::STARTED}}, auth_token: self.auth_token})
     # HttpRequest.post(self.host, self.port, "/championships/#{championship.id}/games", {game: {game_identity: game_id ,oponent_identity: opponent_identity, status: Game::STATUS::STARTED}}, self.auth_token)
