@@ -20,7 +20,7 @@ class Round < ActiveRecord::Base
   end
 
   def round_is_over
-    if round_over?
+    if !offensive_number_was.nil? && !defensive_array_was.nil?
       errors.add(:turn, "Round is over.") 
     end
   end
