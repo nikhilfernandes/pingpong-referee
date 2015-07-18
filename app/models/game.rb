@@ -99,7 +99,7 @@ class Game < ActiveRecord::Base
   end
 
   def create_round
-    turn = winner || self.player1_identity    
+    turn = winner_player || self.player1_identity    
     self.rounds.create(number: 0, turn: turn)          
   end
 
