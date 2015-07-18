@@ -23,9 +23,12 @@ class Round < ActiveRecord::Base
       if defensive_array.size != player.defence_length
         errors.add(:defensive_array, "The length of the defensive array is incorrect.")
       end
-      if !defensive_array.detect{|num| !(1..10).to_a.include?(num) }.nil?
-        errors.add(:defensive_array, "The numbers in defensive array are out of range..")
-      end      
+      begin
+        if !defensive_array.detect{|num| !(1..10).to_a.include?(num) }.nil?
+          errors.add(:defensive_array, "The numbers in defensive array are out of range..")
+        end      
+      rescue
+      end
     end
   end
   
