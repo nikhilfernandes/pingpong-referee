@@ -7,7 +7,7 @@ class RoundsController < ApplicationController
   def update
     championship = Championship.find(params[:championship_id])
     if championship.status == Championship::Status::CLOSED
-      render json: {errors: "This championship is closed."}, status: :unprocessable_entity
+      render json: {errors: {championship: "This championship is closed."}, status: :unprocessable_entity
       return
     end
     game = championship.games.find(params[:game_id])
