@@ -64,7 +64,7 @@ class Player < ActiveRecord::Base
     # HttpRequest.post(self.host, self.port, "/championships/#{championship.id}/games/#{game_id}/rounds", {round: {round_identity: round_id , order_of_play: order_of_play, role: role}}, self.auth_token)
   end
 
-  def notify_player_of_outcome_round(game_id, round_id)    
+  def notify_player_of_outcome_round(game_id, round_id, outcome)    
     Resque.enqueue(AsyncJob, {host: self.host, port: self.port, path: "/championships/#{championship.id}/games/#{game_id}/rounds/#{round_id}", method: "put", payload: {round: {outcome: outcome}}, auth_token: self.auth_token})
     # HttpRequest.put(self.host, self.port, "/championships/#{championship.id}/games/#{game_id}/rounds/#{round_id}", {round: {role: role, outcome: outcome}}, self.auth_token)
   end
