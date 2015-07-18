@@ -3,8 +3,10 @@ class Round < ActiveRecord::Base
   
   validate :game_player
   validate :whos_chance
+  validate :round_is_over
   validates :offensive_number, :inclusion => { :in => 1..10, :message => "The offensive number should be between 1..10" }, :if => :offensive_number_present?
   validate :defensive_array_meets_condition
+
   after_save :handle_round_played
   after_create :notify_players_of_new_round
 
@@ -15,6 +17,10 @@ class Round < ActiveRecord::Base
 
   def offensive_number_present?    
     !self.offensive_number.nil?
+  end
+
+  def round_is_over
+    errors.add(:turn, "Round is over.") if round_over?
   end
 
   def defensive_array_meets_condition
