@@ -1,4 +1,4 @@
 development:
   redis: redis://localhost:6379
 production: 
-  redis: redis://rediscloud:password@localhost:6379  
+  redis: redis://rediscloud:8H0e6qfXvA3FggVB@pub-redis-16575.eu-west-1-2.2.ec2.garantiadata.com:16575
